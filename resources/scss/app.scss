@@ -1,0 +1,31 @@
+@import '~bootstrap/scss/bootstrap';
+
+header {
+    width: 100%;
+    height: 3.5rem;
+}
+
+#sidebarMenu {
+    height: calc(100vh - 3.5rem);
+
+    .nav-link {
+        font-weight: 500;
+        color: #333;
+
+        &:hover {
+            color: #2470dc;
+        }
+
+        &.active {
+            color: #2470dc;
+        }
+    }
+}
+
+.show_image {
+    max-width: 15rem;
+}
+
+.h-2-5 {
+    height: 2.5rem;
+}
