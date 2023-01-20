@@ -19,10 +19,9 @@ class ProjectController extends Controller
 
     public function show($slug)
     {
-        // se lo slug è nel database restituisce l'oggetto corrispondente, altrimenti un array vuoto
         return response()->json([
             'success' => true,
-            'results' => Project::widh('type', 'technologies')->where('slug', $slug)->get()
+            'results' => Project::with('type', 'technologies')->where('slug', $slug)->get()
         ]);
     }
 }
