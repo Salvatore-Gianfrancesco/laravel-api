@@ -5,15 +5,36 @@
         <div class="d-flex justify-content-between align-items-start">
             <h1>Technologies</h1>
 
-            <form action="{{ Route('admin.technologies.store') }}" method="post">
-                @csrf
+            {{-- form for creating a new technology --}}
+            {{-- create - modal button --}}
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalId-create">
+                <i class="fa-solid fa-plus"></i>
+            </button>
 
-                <div class="d-flex align-items-center gap-2">
-                    <input type="text" name="name" id="name" class="form-control @error('name') is-invalid @enderror"
-                        value="{{ old('name') }}" placeholder="Add new Technology...">
-                    <button type="submit" class="btn btn-primary"><i class="fa-solid fa-plus"></i></button>
+            {{-- create - modal body --}}
+            <div class="modal fade" id="modalId-create" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false"
+                role="dialog" aria-labelledby="modalTitleId-create" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered modal-sm" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="modalTitleId-create">Add a new technology</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <form action="{{ Route('admin.technologies.store') }}" method="post">
+                                @csrf
+
+                                <div class="d-flex align-items-center gap-2">
+                                    <input type="text" name="name" id="name"
+                                        class="form-control @error('name') is-invalid @enderror"
+                                        value="{{ old('name') }}">
+                                    <button type="submit" class="btn btn-primary">Add</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
                 </div>
-            </form>
+            </div>
         </div>
 
         {{-- show an error if the form is not correct --}}
