@@ -25,11 +25,16 @@ class UpdateTypesRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => [
+            'name-' . $this->type->id => [
                 'required',
                 Rule::unique('types', 'name')->ignore($this->type->id),
                 'max:100'
             ]
         ];
+    }
+
+    protected function prepareForValidation()
+    {
+        $this->errorBag = "update-" . $this->type->id;
     }
 }

@@ -82,7 +82,8 @@ class TypeController extends Controller
     public function update(UpdateTypesRequest $request, Type $type)
     {
         // update the type and save changes in the database
-        $type->name = $request['name'];
+        // dd($request->request);
+        $type->name = $request['name-' . $type->id];
         $type->slug = Str::slug($type->name);
         $type->save();
 

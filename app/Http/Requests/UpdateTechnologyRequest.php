@@ -25,11 +25,16 @@ class UpdateTechnologyRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => [
+            'name-' . $this->technology->id => [
                 'required',
                 Rule::unique('technologies', 'name')->ignore($this->technology->id),
                 'max:100'
             ]
         ];
+    }
+
+    protected function prepareForValidation()
+    {
+        $this->errorBag = "update-" . $this->technology->id;
     }
 }

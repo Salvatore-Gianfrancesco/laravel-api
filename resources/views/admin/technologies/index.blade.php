@@ -67,6 +67,10 @@
                 </thead>
                 <tbody>
                     @forelse($technologies as $technology)
+                        @error("name-$technology->id", "update-$technology->id")
+                            <div class="alert alert-danger w-100">{{ $message }}</div>
+                        @enderror
+
                         <tr>
                             {{-- technology id --}}
                             <td scope="row">{{ $technology->id }}</td>
@@ -83,9 +87,10 @@
                                         @method('put')
 
                                         <div class="mb-3 d-flex align-items-center gap-2">
-                                            <input type="text" name="name" id="name"
-                                                class="form-control @error('name') is-invalid @enderror"
-                                                value="{{ old('name') }}" placeholder="Type new name...">
+                                            <input type="text" name="name-{{ $technology->id }}" id="name"
+                                                class="form-control @error("name-$technology->id", "update-$technology->id") is-invalid @enderror"
+                                                value="{{ old("name-$technology->id") }}" placeholder="Type new name...">
+
                                             <button type="submit" class="btn btn-secondary text-nowrap">Edit name</button>
                                         </div>
                                     </form>

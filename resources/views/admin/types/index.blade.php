@@ -68,6 +68,10 @@
                 </thead>
                 <tbody>
                     @forelse($types as $type)
+                        @error("name-$type->id", "update-$type->id")
+                            <div class="alert alert-danger w-100">{{ $message }}</div>
+                        @enderror
+
                         <tr>
                             {{-- type id --}}
                             <td scope="row">{{ $type->id }}</td>
@@ -84,9 +88,9 @@
                                         @method('put')
 
                                         <div class="mb-3 d-flex align-items-center gap-2">
-                                            <input type="text" name="name" id="name"
-                                                class="form-control @error('name') is-invalid @enderror"
-                                                value="{{ old('name') }}" placeholder="Type new name...">
+                                            <input type="text" name="name-{{ $type->id }}" id="name"
+                                                class="form-control @error("name-$type->id", "update-$type->id") is-invalid @enderror"
+                                                value="{{ old("name-$type->id") }}" placeholder="Type new name...">
 
                                             <button type="submit" class="btn btn-secondary text-nowrap">Edit name</button>
                                         </div>

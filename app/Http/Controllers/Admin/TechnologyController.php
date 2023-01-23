@@ -82,7 +82,8 @@ class TechnologyController extends Controller
     public function update(UpdateTechnologyRequest $request, Technology $technology)
     {
         // update the technology and save changes in the database
-        $technology->name = $request['name'];
+        // dd($request->request);
+        $technology->name = $request['name-' . $technology->id];
         $technology->slug = Str::slug($technology->name);
         $technology->save();
 
