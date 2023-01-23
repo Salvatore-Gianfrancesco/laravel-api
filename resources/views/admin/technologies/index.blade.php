@@ -63,18 +63,20 @@
 
                                         <div class="mb-3 d-flex align-items-center gap-2">
                                             <input type="text" name="name" id="name"
-                                                class="form-control h-2-5 @error('name') is-invalid @enderror"
+                                                class="form-control @error('name') is-invalid @enderror"
                                                 value="{{ old('name') }}" placeholder="Type new name...">
-                                            <button type="submit" class="btn btn-secondary text-nowrap h-2-5">Edit
+                                            <button type="submit" class="btn btn-secondary text-nowrap">Edit
                                                 name</button>
                                         </div>
                                     </form>
 
                                     <!-- delete - modal button -->
-                                    <button type="button" class="btn btn-danger h-2-5" data-bs-toggle="modal"
-                                        data-bs-target="#modalId-{{ $technology->id }}">
-                                        <i class="fa-solid fa-trash"></i> Delete
-                                    </button>
+                                    <div>
+                                        <button type="button" class="btn btn-danger" data-bs-toggle="modal"
+                                            data-bs-target="#modalId-{{ $technology->id }}">
+                                            <i class="fa-solid fa-trash"></i> Delete
+                                        </button>
+                                    </div>
 
                                     <!-- delete - modal body -->
                                     <div class="modal fade" id="modalId-{{ $technology->id }}" tabindex="-1"
