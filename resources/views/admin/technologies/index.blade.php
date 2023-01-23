@@ -65,20 +65,20 @@
                                             <input type="text" name="name" id="name"
                                                 class="form-control @error('name') is-invalid @enderror"
                                                 value="{{ old('name') }}" placeholder="Type new name...">
-                                            <button type="submit" class="btn btn-secondary text-nowrap">Edit
-                                                name</button>
+                                            <button type="submit" class="btn btn-secondary text-nowrap">Edit name</button>
                                         </div>
                                     </form>
 
-                                    <!-- delete - modal button -->
+                                    {{-- delete - modal button --}}
                                     <div>
                                         <button type="button" class="btn btn-danger" data-bs-toggle="modal"
                                             data-bs-target="#modalId-{{ $technology->id }}">
-                                            <i class="fa-solid fa-trash"></i> Delete
+                                            <i class="fa-solid fa-trash"></i>
+                                            Delete
                                         </button>
                                     </div>
 
-                                    <!-- delete - modal body -->
+                                    {{-- delete - modal body --}}
                                     <div class="modal fade" id="modalId-{{ $technology->id }}" tabindex="-1"
                                         data-bs-backdrop="static" data-bs-keyboard="false" role="dialog"
                                         aria-labelledby="modalTitleId-{{ $technology->id }}" aria-hidden="true">
@@ -89,6 +89,7 @@
                                                     <h5 class="modal-title" id="modalTitleId-{{ $technology->id }}">
                                                         Delete Technology?
                                                     </h5>
+
                                                     <button type="button" class="btn-close" data-bs-dismiss="modal"
                                                         aria-label="Close"></button>
                                                 </div>

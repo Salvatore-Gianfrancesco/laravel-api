@@ -6,15 +6,35 @@
             <h1>Types</h1>
 
             {{-- form for creating a new type --}}
-            <form action="{{ Route('admin.types.store') }}" method="post">
-                @csrf
+            {{-- create - modal button --}}
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalId-create">
+                <i class="fa-solid fa-plus"></i>
+            </button>
 
-                <div class="d-flex align-items-center gap-2">
-                    <input type="text" name="name" id="name" class="form-control @error('name') is-invalid @enderror"
-                        value="{{ old('name') }}" placeholder="Add new Type...">
-                    <button type="submit" class="btn btn-primary"><i class="fa-solid fa-plus"></i></button>
+            {{-- create - modal body --}}
+            <div class="modal fade" id="modalId-create" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false"
+                role="dialog" aria-labelledby="modalTitleId-create" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered modal-sm" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="modalTitleId-create">Add a new type</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <form action="{{ Route('admin.types.store') }}" method="post">
+                                @csrf
+
+                                <div class="d-flex align-items-center gap-2">
+                                    <input type="text" name="name" id="name"
+                                        class="form-control @error('name') is-invalid @enderror"
+                                        value="{{ old('name') }}">
+                                    <button type="submit" class="btn btn-primary">Add</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
                 </div>
-            </form>
+            </div>
         </div>
 
 
@@ -67,20 +87,21 @@
                                             <input type="text" name="name" id="name"
                                                 class="form-control @error('name') is-invalid @enderror"
                                                 value="{{ old('name') }}" placeholder="Type new name...">
-                                            <button type="submit" class="btn btn-secondary text-nowrap">Edit
-                                                name</button>
+
+                                            <button type="submit" class="btn btn-secondary text-nowrap">Edit name</button>
                                         </div>
                                     </form>
 
-                                    <!-- delete - modal button -->
+                                    {{-- delete - modal button --}}
                                     <div>
                                         <button type="button" class="btn btn-danger" data-bs-toggle="modal"
                                             data-bs-target="#modalId-{{ $type->id }}">
-                                            <i class="fa-solid fa-trash"></i> Delete
+                                            <i class="fa-solid fa-trash"></i>
+                                            Delete
                                         </button>
                                     </div>
 
-                                    <!-- delete - modal body -->
+                                    {{-- delete - modal body --}}
                                     <div class="modal fade" id="modalId-{{ $type->id }}" tabindex="-1"
                                         data-bs-backdrop="static" data-bs-keyboard="false" role="dialog"
                                         aria-labelledby="modalTitleId-{{ $type->id }}" aria-hidden="true">
@@ -91,6 +112,7 @@
                                                     <h5 class="modal-title" id="modalTitleId-{{ $type->id }}">
                                                         Delete Type?
                                                     </h5>
+
                                                     <button type="button" class="btn-close" data-bs-dismiss="modal"
                                                         aria-label="Close"></button>
                                                 </div>
