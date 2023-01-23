@@ -1,15 +1,21 @@
 @extends('layouts.admin')
 
 @section('content')
-    <div class="container my-4 d-flex gap-4">
+    <div class="container my-4">
+        {{-- project name --}}
+        <h2>{{ $project->name }}</h2>
+
+        {{-- project image or placeholder --}}
         @if ($project->cover_img)
-            <img src="{{ asset('storage/' . $project->cover_img) }}" alt="{{ $project->title }}" class="show_image img-fluid">
+            <img src="{{ asset('storage/' . $project->cover_img) }}" alt="{{ $project->title }}"
+                class="show_image img-fluid my-2">
         @endif
 
         <div>
-            <h2>{{ $project->name }}</h2>
-            <p>{{ $project->body }}</p>
+            {{-- project type --}}
             <div><strong>Type</strong>: {{ $project->type ? $project->type->name : 'No type' }}</div>
+
+            {{-- project technologies --}}
             <div>
                 <strong>Technologies</strong>:
 
@@ -21,6 +27,9 @@
                     <span>No technologies</span>
                 @endif
             </div>
+
+            {{-- project body --}}
+            <p>{{ $project->body }}</p>
         </div>
     </div>
 

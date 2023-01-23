@@ -4,6 +4,7 @@
     <div class="container my-4">
         <h1>Editing Project: {{ $project->name }}</h1>
 
+        {{-- show an error if the form is not correct --}}
         @if ($errors->any())
             <div class="alert alert-danger">
                 <ul>
@@ -15,22 +16,27 @@
         @endif
 
         <form action="{{ Route('admin.projects.update', $project->id) }}" method="post" enctype="multipart/form-data">
+            {{-- enctype: image storage --}}
             @csrf
             @method('put')
 
+            {{-- name --}}
             <div class="mb-3">
                 <label for="name" class="form-label">Name</label>
                 <input type="text" name="name" id="name" class="form-control @error('name') is-invalid @enderror"
                     value="{{ old('name', $project->name) }}" placeholder="Project name...">
             </div>
 
+            {{-- body --}}
             <div class="mb-3">
                 <label for="body" class="form-label">Body</label>
                 <textarea class="form-control @error('body') is-invalid @enderror" name="body" id="body" rows="3"
                     placeholder="Project body...">{{ old('body', $project->body) }}</textarea>
             </div>
 
+            {{-- cover_image --}}
             <div class="mb-3 d-flex gap-3">
+                {{-- actual project image --}}
                 @if ($project->cover_img)
                     <img src="{{ asset('storage/' . $project->cover_img) }}" alt="{{ $project->title }}" width="150px">
                 @endif
@@ -42,6 +48,7 @@
                 </div>
             </div>
 
+            {{-- type --}}
             <div class="mb-3">
                 <label for="type_id" class="form-label">Type</label>
                 <select class="form-select @error('type_id') 'is-invalid' @enderror" name="type_id" id="type_id">
@@ -58,6 +65,7 @@
                 </select>
             </div>
 
+            {{-- technologies --}}
             <div class="mb-3">
                 <label for="technologies" class="form-label">Technologies</label>
                 <select multiple class="form-select" name="technologies[]" id="technologies">
@@ -79,6 +87,7 @@
                 </select>
             </div>
 
+            {{-- submit --}}
             <button type="submit" class="btn btn-primary">Edit</button>
         </form>
     </div>

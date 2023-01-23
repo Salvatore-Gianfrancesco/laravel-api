@@ -17,6 +17,7 @@ class TypeController extends Controller
      */
     public function index()
     {
+        // select all types stored in the database
         $types = Type::all();
 
         return view('admin.types.index', compact('types'));
@@ -40,6 +41,7 @@ class TypeController extends Controller
      */
     public function store(StoreTypesRequest $request)
     {
+        // create a new instance of Type and store it in the database
         $type = new Type();
         $type->name = $request['name'];
         $type->slug = Str::slug($type->name);
@@ -79,6 +81,7 @@ class TypeController extends Controller
      */
     public function update(UpdateTypesRequest $request, Type $type)
     {
+        // update the type and save changes in the database
         $type->name = $request['name'];
         $type->slug = Str::slug($type->name);
         $type->save();
@@ -94,6 +97,7 @@ class TypeController extends Controller
      */
     public function destroy(Type $type)
     {
+        // delete the type
         $type->delete();
 
         return to_route('admin.types.index')->with('message', 'Type ' . $type->id . ' deleted successfully!');

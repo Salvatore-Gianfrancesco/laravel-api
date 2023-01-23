@@ -2,23 +2,23 @@
 
 @section('content')
     <div class="container my-4">
-        <div class="d-flex justify-content-between align-items-center">
+        <div class="d-flex justify-content-between align-items-start">
             <h1>Types</h1>
 
-            <div>
-                <form action="{{ Route('admin.types.store') }}" method="post">
-                    @csrf
+            {{-- form for creating a new type --}}
+            <form action="{{ Route('admin.types.store') }}" method="post">
+                @csrf
 
-                    <div class="d-flex align-items-center gap-2">
-                        <input type="text" name="name" id="name"
-                            class="form-control @error('name') is-invalid @enderror" value="{{ old('name') }}"
-                            placeholder="Add new Type...">
-                        <button type="submit" class="btn btn-primary"><i class="fa-solid fa-plus"></i></button>
-                    </div>
-                </form>
-            </div>
+                <div class="d-flex align-items-center gap-2">
+                    <input type="text" name="name" id="name" class="form-control @error('name') is-invalid @enderror"
+                        value="{{ old('name') }}" placeholder="Add new Type...">
+                    <button type="submit" class="btn btn-primary"><i class="fa-solid fa-plus"></i></button>
+                </div>
+            </form>
         </div>
 
+
+        {{-- show an error if the form is not correct --}}
         @if ($errors->any())
             <div class="alert alert-danger">
                 <ul>
@@ -29,6 +29,7 @@
             </div>
         @endif
 
+        {{-- show an alert if there is a message in the session --}}
         @if (session('message'))
             <div class="alert alert-info alert-dismissible fade show" role="alert">
                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
@@ -48,30 +49,36 @@
                 <tbody>
                     @forelse($types as $type)
                         <tr>
+                            {{-- type id --}}
                             <td scope="row">{{ $type->id }}</td>
+
+                            {{-- type name --}}
                             <td>{{ $type->name }}</td>
+
+                            {{-- edit and delete buttons --}}
                             <td>
                                 <div class="d-flex gap-2">
+                                    {{-- form for editing the type name --}}
                                     <form action="{{ Route('admin.types.update', $type->id) }}" method="post">
                                         @csrf
                                         @method('put')
 
                                         <div class="mb-3 d-flex align-items-center gap-2">
-                                            <input type="text" name="name" id="name" class="form-control h-2-5"
+                                            <input type="text" name="name" id="name"
+                                                class="form-control h-2-5 @error('name') is-invalid @enderror"
                                                 value="{{ old('name') }}" placeholder="Type new name...">
                                             <button type="submit" class="btn btn-secondary text-nowrap h-2-5">Edit
                                                 name</button>
                                         </div>
                                     </form>
 
-                                    <!-- Modal trigger button -->
+                                    <!-- delete - modal button -->
                                     <button type="button" class="btn btn-danger h-2-5" data-bs-toggle="modal"
                                         data-bs-target="#modalId-{{ $type->id }}">
                                         <i class="fa-solid fa-trash"></i> Delete
                                     </button>
 
-                                    <!-- Modal Body -->
-                                    <!-- if you want to close by clicking outside the modal, delete the last endpoint:data-bs-backdrop and data-bs-keyboard -->
+                                    <!-- delete - modal body -->
                                     <div class="modal fade" id="modalId-{{ $type->id }}" tabindex="-1"
                                         data-bs-backdrop="static" data-bs-keyboard="false" role="dialog"
                                         aria-labelledby="modalTitleId-{{ $type->id }}" aria-hidden="true">
@@ -109,7 +116,6 @@
                     @empty
                         <tr>
                             <td scope="row">Nothing to show</td>
-                            <td></td>
                             <td></td>
                             <td></td>
                         </tr>

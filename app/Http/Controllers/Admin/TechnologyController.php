@@ -17,6 +17,7 @@ class TechnologyController extends Controller
      */
     public function index()
     {
+        // select all technologies stored in the database
         $technologies = Technology::all();
 
         return view('admin.technologies.index', compact('technologies'));
@@ -40,6 +41,7 @@ class TechnologyController extends Controller
      */
     public function store(StoreTechnologyRequest $request)
     {
+        // create a new instance of Technology and store it in the database
         $technology = new Technology();
         $technology->name = $request['name'];
         $technology->slug = Str::slug($technology->name);
@@ -79,6 +81,7 @@ class TechnologyController extends Controller
      */
     public function update(UpdateTechnologyRequest $request, Technology $technology)
     {
+        // update the technology and save changes in the database
         $technology->name = $request['name'];
         $technology->slug = Str::slug($technology->name);
         $technology->save();
@@ -94,6 +97,7 @@ class TechnologyController extends Controller
      */
     public function destroy(Technology $technology)
     {
+        // delete the technology
         $technology->delete();
 
         return to_route('admin.technologies.index')->with('message', 'Technology ' . $technology->id . ' deleted successfully!');

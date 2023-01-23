@@ -48,7 +48,13 @@
 
                         <!-- sign out -->
                         <div class="nav-item text-nowrap">
-                            <a class="nav-link px-3 text-light" href="">Sign out</a>
+                            <form id="logout-form" action="{{ route('logout') }}" method="POST">
+                                @csrf
+
+                                <button type="submit" class="nav-link px-3 bg-transparent text-light border-0">
+                                    Sign Out
+                                </button>
+                            </form>
                         </div>
                     </div>
                 </div>

@@ -4,10 +4,10 @@
     <div class="container my-4">
         <div class="d-flex justify-content-between align-items-center">
             <h1>Projects</h1>
-            <a href="{{ Route('admin.projects.create') }}" class="btn btn-primary new_project"><i
-                    class="fa-solid fa-plus"></i></a>
+            <a href="{{ Route('admin.projects.create') }}" class="btn btn-primary"><i class="fa-solid fa-plus"></i></a>
         </div>
 
+        {{-- show an alert if there is a message in the session --}}
         @if (session('message'))
             <div class="alert alert-info alert-dismissible fade show" role="alert">
                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
@@ -28,8 +28,10 @@
                 <tbody>
                     @forelse($projects as $project)
                         <tr>
+                            {{-- project id --}}
                             <td scope="row">{{ $project->id }}</td>
 
+                            {{-- project image --}}
                             <td>
                                 @if ($project->cover_img)
                                     <img src="{{ asset('storage/' . $project->cover_img) }}" alt="{{ $project->title }}"
@@ -40,22 +42,27 @@
                                 @endif
                             </td>
 
+                            {{-- project name --}}
                             <td>{{ $project->name }}</td>
+
+                            {{-- show, edit and delete buttons --}}
                             <td>
                                 <div class="d-flex gap-2">
+                                    {{-- show --}}
                                     <a href="{{ Route('admin.projects.show', $project->id) }}" class="btn btn-primary"><i
                                             class="fa-solid fa-eye"></i> Show</a>
+
+                                    {{-- edit --}}
                                     <a href="{{ Route('admin.projects.edit', $project->id) }}" class="btn btn-secondary"><i
                                             class="fa-solid fa-pen-to-square"></i> Edit</a>
 
-                                    <!-- Modal trigger button -->
+                                    <!-- delete - modal button -->
                                     <button type="button" class="btn btn-danger" data-bs-toggle="modal"
                                         data-bs-target="#modalId-{{ $project->id }}">
                                         <i class="fa-solid fa-trash"></i> Delete
                                     </button>
 
-                                    <!-- Modal Body -->
-                                    <!-- if you want to close by clicking outside the modal, delete the last endpoint:data-bs-backdrop and data-bs-keyboard -->
+                                    <!-- delete - modal body -->
                                     <div class="modal fade" id="modalId-{{ $project->id }}" tabindex="-1"
                                         data-bs-backdrop="static" data-bs-keyboard="false" role="dialog"
                                         aria-labelledby="modalTitleId-{{ $project->id }}" aria-hidden="true">
