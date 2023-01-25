@@ -26,7 +26,7 @@ Route::middleware(['auth', 'verified'])->name('admin.')->prefix('admin')->group(
     Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
     Route::resource('projects', ProjectController::class);
     Route::resource('types', TypeController::class)->except('show', 'create', 'edit');
-    Route::resource('technologies', TechnologyController::class);
+    Route::resource('technologies', TechnologyController::class)->except('show', 'create', 'edit');
 });
 
 require __DIR__ . '/auth.php';

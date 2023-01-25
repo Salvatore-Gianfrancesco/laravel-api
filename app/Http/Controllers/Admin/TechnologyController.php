@@ -7,6 +7,7 @@ use App\Models\Technology;
 use App\Http\Requests\StoreTechnologyRequest;
 use App\Http\Requests\UpdateTechnologyRequest;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Storage;
 
 class TechnologyController extends Controller
 {
@@ -41,10 +42,17 @@ class TechnologyController extends Controller
      */
     public function store(StoreTechnologyRequest $request)
     {
-        // create a new instance of Technology and store it in the database
+        // validate the request and store the new technology instance in the database
+        $val_data = $request->validated();
         $technology = new Technology();
-        $technology->name = $request['name'];
-        $technology->slug = Str::slug($technology->name);
+        $technology->name = $val_data['name'];
+
+        // if the request has an image store it in the storage linked folder
+        if ($request->hasFile('icon')) {
+            $icon = Storage::put('uploads', $val_data['icon']);
+            $technology['icon'] = $icon;
+        }
+
         $technology->save();
 
         return to_route('admin.technologies.index')->with('message', 'Technology ' . $technology->id . ' stored successfully!');
@@ -81,11 +89,22 @@ class TechnologyController extends Controller
      */
     public function update(UpdateTechnologyRequest $request, Technology $technology)
     {
-        // update the technology and save changes in the database
-        // dd($request->request);
-        $technology->name = $request['name-' . $technology->id];
-        $technology->slug = Str::slug($technology->name);
-        $technology->save();
+        // validate the request and edit the technology instance in the database
+        $val_data = $request->validated();
+        $technology->name = $val_data['name-' . $technology->id];
+
+        // if the request has an icon
+        if ($request->hasFile('icon-' . $technology->id)) {
+            // if the technology has already an icon, delete it
+            if ($technology->icon) {
+                Storage::delete($technology->icon);
+            }
+            // store the new icon in the storage linked folder
+            $icon = Storage::put('uploads', $val_data['icon-' . $technology->id]);
+            $technology['icon'] = $icon;
+        }
+
+        $technology->update();
 
         return to_route('admin.technologies.index')->with('message', 'Technology ' . $technology->id . ' edited successfully!');
     }
@@ -98,6 +117,11 @@ class TechnologyController extends Controller
      */
     public function destroy(Technology $technology)
     {
+        // if the technology has an icon, delete it
+        if ($technology->icon) {
+            Storage::delete($technology->icon);
+        }
+
         // delete the technology
         $technology->delete();
 
