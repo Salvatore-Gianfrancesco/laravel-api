@@ -41,10 +41,10 @@ class TypeController extends Controller
      */
     public function store(StoreTypesRequest $request)
     {
-        // create a new instance of Type and store it in the database
+        // validate the request and store the new type instance in the database
+        $val_data = $request->validated();
         $type = new Type();
-        $type->name = $request['name'];
-        $type->slug = Str::slug($type->name);
+        $type->name = $val_data['name'];
         $type->save();
 
         return to_route('admin.types.index')->with('message', 'Type ' . $type->id . ' stored successfully!');
@@ -81,13 +81,12 @@ class TypeController extends Controller
      */
     public function update(UpdateTypesRequest $request, Type $type)
     {
-        // update the type and save changes in the database
-        // dd($request->request);
-        $type->name = $request['name-' . $type->id];
-        $type->slug = Str::slug($type->name);
-        $type->save();
+        // validate the request and update the type instance in the database
+        $val_data = $request->validated();
+        $type->name = $val_data['name-' . $type->id];
+        $type->update();
 
-        return to_route('admin.types.index')->with('message', 'Type ' . $type->id . ' edited successfully!');
+        return to_route('admin.types.index')->with('message', 'Type ' . $type->id . ' stored successfully!');
     }
 
     /**

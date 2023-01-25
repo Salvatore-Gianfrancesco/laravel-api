@@ -16,18 +16,21 @@
                 role="dialog" aria-labelledby="modalTitleId-create" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered modal-sm" role="document">
                     <div class="modal-content">
+                        {{-- modal header --}}
                         <div class="modal-header">
                             <h5 class="modal-title" id="modalTitleId-create">Add a new type</h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
+
+                        {{-- modal body --}}
                         <div class="modal-body">
                             <form action="{{ Route('admin.types.store') }}" method="post">
                                 @csrf
 
                                 <div class="d-flex align-items-center gap-2">
                                     <input type="text" name="name" id="name"
-                                        class="form-control @error('name') is-invalid @enderror"
-                                        value="{{ old('name') }}">
+                                        class="form-control @error('name') is-invalid @enderror" value="{{ old('name') }}"
+                                        placeholder="Type name...">
                                     <button type="submit" class="btn btn-primary">Add</button>
                                 </div>
                             </form>
@@ -37,8 +40,7 @@
             </div>
         </div>
 
-
-        {{-- show an error if the form is not correct --}}
+        {{-- show an error if the form create is not correct --}}
         @if ($errors->any())
             <div class="alert alert-danger">
                 <ul>
@@ -68,6 +70,7 @@
                 </thead>
                 <tbody>
                     @forelse($types as $type)
+                        {{-- show an error if the form update is not correct --}}
                         @error("name-$type->id", "update-$type->id")
                             <div class="alert alert-danger w-100">{{ $message }}</div>
                         @enderror
@@ -91,7 +94,6 @@
                                             <input type="text" name="name-{{ $type->id }}" id="name"
                                                 class="form-control @error("name-$type->id", "update-$type->id") is-invalid @enderror"
                                                 value="{{ old("name-$type->id") }}" placeholder="Type new name...">
-
                                             <button type="submit" class="btn btn-secondary text-nowrap">Edit name</button>
                                         </div>
                                     </form>
@@ -112,17 +114,21 @@
                                         <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered modal-sm"
                                             role="document">
                                             <div class="modal-content">
+                                                {{-- modal header --}}
                                                 <div class="modal-header">
                                                     <h5 class="modal-title" id="modalTitleId-{{ $type->id }}">
                                                         Delete Type?
                                                     </h5>
-
                                                     <button type="button" class="btn-close" data-bs-dismiss="modal"
                                                         aria-label="Close"></button>
                                                 </div>
+
+                                                {{-- modal body --}}
                                                 <div class="modal-body">
                                                     Are you sure you want to delete this type? The action is irreversible!
                                                 </div>
+
+                                                {{-- modal footer --}}
                                                 <div class="modal-footer">
                                                     <button type="button" class="btn btn-secondary"
                                                         data-bs-dismiss="modal">Close</button>
@@ -151,6 +157,5 @@
                 </tbody>
             </table>
         </div>
-
     </div>
 @endsection
