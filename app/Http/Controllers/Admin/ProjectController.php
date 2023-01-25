@@ -49,25 +49,32 @@ class ProjectController extends Controller
     public function store(StoreProjectRequest $request)
     {
         // validate the request
-        $validated = $request->validated();
-        // dd($validated);
+        $val_data = $request->validated();
+        // dd($val_data);
 
         // create the slug of the project
-        $slug = Str::slug($validated['name']);
-        $validated['slug'] = $slug;
+        $slug = Str::slug($val_data['name']);
+        $val_data['slug'] = $slug;
 
         // if the request has an image store it in the storage linked folder
         if ($request->hasFile('cover_img')) {
-            $cover_img = Storage::put('uploads', $validated['cover_img']);
-            $validated['cover_img'] = $cover_img;
+            $cover_img = Storage::put('uploads', $val_data['cover_img']);
+            $val_data['cover_img'] = $cover_img;
+        }
+
+        // set the value of is_important
+        if ($request['is_important'] === 'on') {
+            $val_data['is_important'] = true;
+        } else {
+            $val_data['is_important'] = false;
         }
 
         // create the new project with validated data
-        $project = Project::create($validated);
+        $project = Project::create($val_data);
 
         // if the project has technologies store them in the pivot table
         if ($request->has('technologies')) {
-            $project->technologies()->attach($validated['technologies']);
+            $project->technologies()->attach($val_data['technologies']);
         }
 
         return to_route('admin.projects.index')->with('message', 'Project ' . $project->id . ' stored successfully!');
@@ -109,12 +116,12 @@ class ProjectController extends Controller
     public function update(UpdateProjectRequest $request, Project $project)
     {
         // validate the request
-        $validated = $request->validated();
-        // dd($validated);
+        $val_data = $request->validated();
+        // dd($val_data);
 
         // update the slug
-        $slug = Str::slug($validated['name']);
-        $validated['slug'] = $slug;
+        $slug = Str::slug($val_data['name']);
+        $val_data['slug'] = $slug;
 
         // if there is an image in the request
         if ($request->hasFile('cover_img')) {
@@ -123,16 +130,23 @@ class ProjectController extends Controller
                 Storage::delete($project->cover_img);
             }
             // store the new image in the storage linked folder
-            $cover_img = Storage::put('uploads', $validated['cover_img']);
-            $validated['cover_img'] = $cover_img;
+            $cover_img = Storage::put('uploads', $val_data['cover_img']);
+            $val_data['cover_img'] = $cover_img;
+        }
+
+        // update the value of is_important
+        if ($request['is_important'] === 'on') {
+            $val_data['is_important'] = true;
+        } else {
+            $val_data['is_important'] = false;
         }
 
         // update the project
-        $project->update($validated);
+        $project->update($val_data);
 
         // if the request has technologies sync them in the pivot table 
         if ($request->has('technologies')) {
-            $project->technologies()->sync($validated['technologies']);
+            $project->technologies()->sync($val_data['technologies']);
         } else {
             $project->technologies()->sync([]);
         }

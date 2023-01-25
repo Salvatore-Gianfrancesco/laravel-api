@@ -2,7 +2,7 @@
 
 @section('content')
     <div class="container my-4">
-        <div class="d-flex justify-content-between align-items-center">
+        <div class="d-flex justify-content-between align-items-start">
             <h1>Projects</h1>
             <a href="{{ Route('admin.projects.create') }}" class="btn btn-primary"><i class="fa-solid fa-plus"></i></a>
         </div>
@@ -22,6 +22,7 @@
                         <th scope="col">Id</th>
                         <th scope="col">Cover Image</th>
                         <th scope="col">Title</th>
+                        <th scope="col">Publication Date</th>
                         <th scope="col">Actions</th>
                     </tr>
                 </thead>
@@ -35,15 +36,24 @@
                             <td>
                                 @if ($project->cover_img)
                                     <img src="{{ asset('storage/' . $project->cover_img) }}" alt="{{ $project->title }}"
-                                        width="100px">
+                                        class="index_image">
                                 @else
                                     <img src="https://via.placeholder.com/600x300.png?text=Cover+Image" alt="placeholder"
-                                        width="100px">
+                                        class="index_image">
                                 @endif
                             </td>
 
                             {{-- project name --}}
                             <td>{{ $project->name }}</td>
+
+                            {{-- project publication date --}}
+                            <td>
+                                @if ($project->publication_date)
+                                    {{ $project->publication_date }}
+                                @else
+                                    Null
+                                @endif
+                            </td>
 
                             {{-- show, edit and delete buttons --}}
                             <td>
@@ -100,6 +110,7 @@
                     @empty
                         <tr>
                             <td scope="row">Nothing to show</td>
+                            <td></td>
                             <td></td>
                             <td></td>
                             <td></td>

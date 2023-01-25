@@ -38,7 +38,7 @@
             <div class="mb-3 d-flex gap-3">
                 {{-- actual project image --}}
                 @if ($project->cover_img)
-                    <img src="{{ asset('storage/' . $project->cover_img) }}" alt="{{ $project->title }}" width="150px">
+                    <img src="{{ asset('storage/' . $project->cover_img) }}" alt="{{ $project->title }}" class="edit_image">
                 @endif
 
                 <div class="w-100">
@@ -48,11 +48,27 @@
                 </div>
             </div>
 
+            {{-- github repository --}}
+            <div class="mb-3">
+                <label for="github_repo" class="form-label">GitHub Repository</label>
+                <input type="text" name="github_repo" id="github_repo"
+                    class="form-control @error('github_repo') is-invalid @enderror"
+                    value="{{ old('github_repo', $project->github_repo) }}" placeholder="Project link...">
+            </div>
+
+            {{-- publication date --}}
+            <div class="mb-3">
+                <label for="publication_date" class="form-label">Publication Date</label>
+                <input type="date" name="publication_date" id="publication_date"
+                    class="form-control @error('publication_date') is-invalid @enderror"
+                    value="{{ old('publication_date', $project->publication_date) }}" placeholder="Project date...">
+            </div>
+
             {{-- type --}}
             <div class="mb-3">
                 <label for="type_id" class="form-label">Type</label>
                 <select class="form-select @error('type_id') 'is-invalid' @enderror" name="type_id" id="type_id">
-                    <option value="null">No type</option>
+                    <option value="">No type</option>
 
                     @forelse ($types as $type)
                         <option value="{{ $type->id }}"
@@ -60,7 +76,7 @@
                             {{ $type->name }}
                         </option>
                     @empty
-                        <option value="null">No types stored</option>
+                        <option value="">No types stored</option>
                     @endforelse
                 </select>
             </div>
@@ -85,6 +101,16 @@
                         <option value="null" disabled>No technologies</option>
                     @endforelse
                 </select>
+            </div>
+
+            {{-- is important --}}
+            <div class="form-check form-switch mb-3">
+                <input class="form-check-input @error('is_important') is-invalid @enderror" type="checkbox" role="switch"
+                    name="is_important" id="is_important"
+                    {{ old('is_important', $project->is_important) ? 'checked' : '' }}>
+                <label class="form-check-label" for="is_important">
+                    Check as important
+                </label>
             </div>
 
             {{-- submit --}}

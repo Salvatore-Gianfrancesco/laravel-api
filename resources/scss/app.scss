@@ -22,6 +22,24 @@ header {
     }
 }
 
+.index_image,
+.show_image,
+.edit_image {
+    object-fit: cover;
+    object-position: top center;
+}
+
+.index_image {
+    height: 50px;
+    width: 100px;
+}
+
 .show_image {
-    max-width: 30rem;
+    max-height: 50vh;
+    width: 100%;
+}
+
+.edit_image {
+    height: 75px;
+    width: 150px;
 }
